@@ -18,8 +18,9 @@ const drumPadPlay = (pathSound) => {
   const sound = new Audio(pathSound);
   sound.play();
 };
-let recording = [];
+let recordingArray = [];
 //asignación clicks a sonidos
+//adicionalmente aprovecho evento para capturar pathsound relacionado al cllick
 
 drumpadSection.addEventListener("click", (event) => {
   const target = event.target;
@@ -28,10 +29,12 @@ drumpadSection.addEventListener("click", (event) => {
     setTimeout(() => {
       drumPadPlay(`./sounds/${soundName}.wav`);
     }, 100);
+    recordingArray.push(`./sounds/${soundName}.wav`);
   }
 });
-
+console.log(recordingArray);
 //asignación teclas a sonidos
+//adicionalmente aprovecho la función para capturar el pathsound relacionadas con teclas pulsadas
 
 drumpadSection.addEventListener("keydown", (event) => {
   const key = event.key.toUpperCase();
@@ -39,8 +42,10 @@ drumpadSection.addEventListener("keydown", (event) => {
   if (llavesObjeto.includes(key)) {
     setTimeout(() => {
       drumPadPlay(sounds[key]);
+      recordingArray.push(sounds[key]);
     }, 100);
   } else {
     alert(`pulsa una tecla valida "E" "R" "T" "Y" "U" "I" "F" "G" "H"`);
   }
 });
+console.log(recordingArray);
