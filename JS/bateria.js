@@ -14,38 +14,50 @@ const sounds = {
 
 //selecciono y defino secciones
 const initialSection = document.querySelector("section.initial");
-console.log(initialSection);
-const drumpadSection = document.querySelector("section.play");
-console.log(drumpadSection);
-const playRecSection = document.querySelector("section.playRec");
-console.log(playRecSection);
 
+const drumpadSection = document.querySelector("section.play");
+
+const playRecSection = document.querySelector("section.playRec");
+
+//inicio diseño para visualización de paneles
+
+//función para mostrar paneles
 function showPanel(panel) {
   panel.classList.remove("hidden");
 }
+
+//función general esconder todos los paneles
 function hideAllPanel() {
   initialSection.classList.add("hidden");
   drumpadSection.classList.add("hidden");
   playRecSection.classList.add("hidden");
 }
-
+//función para gestionar la sección final-Play rec,
+//gestión evento click en retorno a juego sin grabación
 function ShowPlayRec() {
   showPanel(playRecSection);
-  const returnPlayButton = playRecSection.querySelector("button");
+  const returnPlayButton = playRecSection.querySelector("button#returnPlay");
   returnPlayButton.addEventListener("click", () => {
     hideAllPanel();
     showCentral();
   });
 }
+
+//función para gestionar panel central o principal-drumpad
+// y para gestionar el cambio de panel , a panel grabación
+
 function showCentral() {
   showPanel(drumpadSection);
-  const recordingButton = drumpadSection.querySelector("button.rec");
+  const recordingButton = drumpadSection.querySelector("button#rec");
 
   recordingButton.addEventListener("click", (e) => {
     hideAllPanel();
     ShowPlayRec();
   });
 }
+
+//función para gestionar visualización panel inicial
+//y para añadir evento a botón jugar y dar paso a siguiente panel drumpad
 
 function managePanel() {
   showPanel(initialSection);
@@ -56,15 +68,18 @@ function managePanel() {
     showCentral();
   });
 }
-
+//inicializamos la gestión de paneles
 managePanel();
 
-//función play sounds
+//se define función play sounds, reproducirá los sonidos según dirección obtenida
 const drumPadPlay = (pathSound) => {
   const sound = new Audio(pathSound);
-  sound.play();
+  setTimeout(() => {
+    sound.play();
+  }, 200);
 };
-
+//inicializamos array vacio para cargar posibles eventos de grabación
+//obtendremos en este la dirección de los sonidos
 let recordingArray = [];
 
 //asignación clicks a sonidos
@@ -74,16 +89,15 @@ let recordingArray = [];
 const UserClick = drumpadSection.addEventListener("click", (event) => {
   const target = event.target;
   if (target.matches("section.play>button")) {
-    let soundName = target.getAttribute("id");
+    let soundName = target.getAttribute("class");
+
     if (soundName !== null) {
-      setTimeout(() => {
-        drumPadPlay(`./sounds/${soundName}.wav`);
-        //recordingArray.push(`./sounds/${soundName}.wav`);
-      }, 100);
+      drumPadPlay(`./sounds/${soundName}.wav`);
+      //recordingArray.push(`./sounds/${soundName}.wav`);
     }
-    saveLocalStorage(recordingArray);
+    //saveLocalStorage(recordingArray);
     let arrS = getLocalStorage();
-    console.log(`Arr: ${arrS}`);
+    //console.log(`Arr: ${arrS}`);
     //console.log(`./sounds/${soundName}.wav`);
   }
 });
@@ -95,13 +109,12 @@ const UserKey = drumpadSection.addEventListener("keydown", (event) => {
   const key = event.key.toUpperCase();
   const llavesObjeto = Object.keys(sounds);
   if (llavesObjeto.includes(key)) {
-    setTimeout(() => {
-      drumPadPlay(sounds[key]);
-      //recordingArray.push(sounds[key]);
-    }, 100);
+    drumPadPlay(sounds[key]);
+    //recordingArray.push(sounds[key]);
+
     //saveLocalStorage(recordingArray);
-    let arrS = getLocalStorage();
-    console.log(`Arr: ${arrS}`);
+    //arrS = getLocalStorage();
+    //console.log(`Arr: ${arrS}`);
   } else {
     alert(`pulsa una tecla valida "E" "R" "T" "Y" "U" "I" "F" "G" "H"`);
   }
@@ -122,3 +135,49 @@ function getLocalStorage() {
 
 //2)Hacer un boton de play con un eventListener para recoger el array de
 //sonidos del LocalStorage y reproducirlo
+
+///configuro eventos para botones del panel rec
+
+const UserRecClick = playRecSection.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target.matches("section.playRec>button")) {
+    let soundName = target.getAttribute("class");
+
+    if (soundName !== null) {
+      drumPadPlay(`./sounds/${soundName}.wav`);
+      recordingArray.push(`./sounds/${soundName}.wav`);
+    }
+    saveLocalStorage(recordingArray);
+    let arrS = getLocalStorage();
+    //console.log(`Arr: ${arrS}`);
+    //console.log(`./sounds/${soundName}.wav`);
+  }
+});
+
+const UseRecrKey = playRecSection.addEventListener("keydown", (event) => {
+  const key = event.key.toUpperCase();
+  const llavesObjeto = Object.keys(sounds);
+  if (llavesObjeto.includes(key)) {
+    drumPadPlay(sounds[key]);
+    recordingArray.push(sounds[key]);
+
+    saveLocalStorage(recordingArray);
+    arrS = getLocalStorage();
+    //console.log(`Arr: ${arrS}`);
+  } else {
+    alert(`pulsa una tecla valida "E" "R" "T" "Y" "U" "I" "F" "G" "H"`);
+  }
+});
+
+const playButton = playRecSection.querySelector("button#playRecorded");
+playButton.addEventListener("click", (e) => {
+  let arrS = getLocalStorage();
+  for (let index = 0; index < arrS.length; index++) {
+    const path = arrS[index];
+
+    drumPadPlay(path);
+  }
+});
+
+//const playButton = playRecSection.querySelector("button#playRecorded");
+//console.log(playButton);

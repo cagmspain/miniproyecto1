@@ -46,6 +46,17 @@ section.play {
 
 section.playRec {
   min-height: 100vh;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
+  max-width: 600px;
+  align-content: space-around;
+  gap: 1rem;
+  background-color: rgb(221, 120, 120);
+  border: 1rem solid gray;
   background-color: red;
 }
 button {
