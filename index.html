@@ -9,7 +9,10 @@
   </head>
   <body>
     <header><h1>Batería virtual</h1></header>
-    <section id="drumpad">
+    <section class="panel initial">
+      <button id="first">let's play</button>
+    </section>
+    <section class="panel play hidden central">
       <button id="crash">crash(E)</button>
       <button id="hihat-close">hihatClose(R)</button>
       <button id="hihat-open">hihatOpen(T)</button>
@@ -19,9 +22,10 @@
       <button id="tom-high">tomHigh(F)</button>
       <button id="tom-low">tomLOw(G)</button>
       <button id="tom-mid">tomMid(H)</button>
+      <button class="rec">REC</button>
     </section>
-    <section id="rec">
-      <button id="recording">REC</button>
+    <section class="panel playRec hidden secondary">
+      <button>return play</button>
     </section>
 
     <script type="module" src="./JS/bateria.js"></script>
