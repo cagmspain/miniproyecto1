@@ -5,15 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./CSS/style.css" />
-    <title>Bateria virtual</title>
+    <title>DRUM SET</title>
   </head>
   <body>
     <section class="panel initial">
+      <h1>Virtual Drumpad</h1>
+      <ul>
+        <li>instructions</li>
+        <li>You can play by clicking</li>
+        <li>or you can select keyboard</li>
+        <li>E R T Y U I F G H</li>
+      </ul>
       <button id="first">let's play</button>
     </section>
     <section class="panel play hidden central">
-      <button class="crash">crash(E)</button>
-      <button class="hihat-close">hihatClose(R)</button>
+      <button class="crash">
+        <img src="/img/crash.png" alt="cymbal" width="50" height="50" />crash(E)
+      </button>
+      <button class="hihat-close">Hihat close (R)</button>
       <button class="hihat-open">hihatOpen(T)</button>
       <button class="kick">kick(Y)</button>
       <button class="ride">ride(U)</button>
@@ -21,22 +30,7 @@
       <button class="tom-high">tomHigh(F)</button>
       <button class="tom-low">tomLOw(G)</button>
       <button class="tom-mid">tomMid(H)</button>
-      <button id="rec">REC</button>
     </section>
-    <section class="panel playRec hidden secondary">
-      <button class="crash">crash(E)</button>
-      <button class="hihat-close">hihatClose(R)</button>
-      <button class="hihat-open">hihatOpen(T)</button>
-      <button class="kick">kick(Y)</button>
-      <button class="ride">ride(U)</button>
-      <button class="snare">snare(I)</button>
-      <button class="tom-high">tomHigh(F)</button>
-      <button class="tom-low">tomLOw(G)</button>
-      <button class="tom-mid">tomMid(H)</button>
-      <button id="returnPlay">return play</button>
-      <button id="playRecorded">Play recorded</button>
-    </section>
-
     <script type="module" src="./JS/bateria.js"></script>
   </body>
 </html>

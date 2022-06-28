@@ -17,7 +17,7 @@ const initialSection = document.querySelector("section.initial");
 
 const drumpadSection = document.querySelector("section.play");
 
-const playRecSection = document.querySelector("section.playRec");
+//const playRecSection = document.querySelector("section.playRec");
 
 //inicio diseño para visualización de paneles
 
@@ -30,18 +30,18 @@ function showPanel(panel) {
 function hideAllPanel() {
   initialSection.classList.add("hidden");
   drumpadSection.classList.add("hidden");
-  playRecSection.classList.add("hidden");
+  //playRecSection.classList.add("hidden");
 }
 //función para gestionar la sección final-Play rec,
 //gestión evento click en retorno a juego sin grabación
-function ShowPlayRec() {
+/* function ShowPlayRec() {
   showPanel(playRecSection);
   const returnPlayButton = playRecSection.querySelector("button#returnPlay");
   returnPlayButton.addEventListener("click", () => {
     hideAllPanel();
     showCentral();
   });
-}
+} */
 
 //función para gestionar panel central o principal-drumpad
 // y para gestionar el cambio de panel , a panel grabación
@@ -50,10 +50,10 @@ function showCentral() {
   showPanel(drumpadSection);
   const recordingButton = drumpadSection.querySelector("button#rec");
 
-  recordingButton.addEventListener("click", (e) => {
+  /* recordingButton.addEventListener("click", (e) => {
     hideAllPanel();
     ShowPlayRec();
-  });
+  }); */
 }
 
 //función para gestionar visualización panel inicial
@@ -74,9 +74,8 @@ managePanel();
 //se define función play sounds, reproducirá los sonidos según dirección obtenida
 const drumPadPlay = (pathSound) => {
   const sound = new Audio(pathSound);
-  setTimeout(() => {
-    sound.play();
-  }, 200);
+
+  sound.play();
 };
 //inicializamos array vacio para cargar posibles eventos de grabación
 //obtendremos en este la dirección de los sonidos
@@ -138,8 +137,9 @@ function getLocalStorage() {
 
 ///configuro eventos para botones del panel rec
 
-const UserRecClick = playRecSection.addEventListener("click", (event) => {
+/* const UserRecClick = playRecSection.addEventListener("click", (event) => {
   const target = event.target;
+  event.preventDefault();
   if (target.matches("section.playRec>button")) {
     let soundName = target.getAttribute("class");
 
@@ -153,8 +153,8 @@ const UserRecClick = playRecSection.addEventListener("click", (event) => {
     //console.log(`./sounds/${soundName}.wav`);
   }
 });
-
-const UseRecrKey = playRecSection.addEventListener("keydown", (event) => {
+ */
+/* const UseRecrKey = playRecSection.addEventListener("keydown", (event) => {
   const key = event.key.toUpperCase();
   const llavesObjeto = Object.keys(sounds);
   if (llavesObjeto.includes(key)) {
@@ -181,3 +181,4 @@ playButton.addEventListener("click", (e) => {
 
 //const playButton = playRecSection.querySelector("button#playRecorded");
 //console.log(playButton);
+ */
