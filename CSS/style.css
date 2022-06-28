@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Open+Sans:ital,wght@0,300;0,600;1,300&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -6,19 +8,14 @@
 
 body {
   min-height: 100vh;
-  /* display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  align-items: center; */
-  font-family: sans-serif;
+  font-family: "Montserrat", sans-serif;
+  padding: 0.5rem;
 }
 
 section.panel {
   display: grid;
   place-content: center;
   min-height: 100vh;
-  /* min-width: 350px;*/
 }
 
 section.panel.hidden {
@@ -27,44 +24,67 @@ section.panel.hidden {
 
 section.initial {
   min-height: 100vh;
-  background-color: blue;
-}
-
-section.play {
-  padding: 0.5rem;
-  /*   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: space-around;
-  gap: 1rem; */
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 1rem;
-  background-color: rgb(221, 120, 120);
-}
-
-button {
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  background-color: lightgray;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  padding: 1rem;
-  border: none;
-  box-shadow: 2px 2px 5px black;
-}
-
-button.crash {
-  justify-content: center;
+  background: radial-gradient(whitesmoke, rgb(204, 204, 231));
+  list-style-type: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+section.initial ul {
+  list-style: none;
+  margin: 2rem;
+  padding: 2rem;
+}
+
+section.play {
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1rem;
+  background-color: rgb(171, 195, 207);
+}
+
+button {
+  color: black;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: rgba(202, 192, 46, 0.8);
+  padding: 1rem;
+  border: none;
+  box-shadow: -10px 10px 5px rgba(0, 0, 0, 0.3);
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+button:active {
+  transform: scale(0.98);
+  box-shadow: -6px 6px 2.5px rgba(0, 0, 0, 0.3);
+}
+
+button > span {
+  background-color: rgba(40, 21, 88, 0.05);
+}
+
+button.crash {
+  background-image: url(/img/crash.png);
+  font-family: "Montserrat", sans-serif;
+
+  /* justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
 }
 
 button.hihat-close {
