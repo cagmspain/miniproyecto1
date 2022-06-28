@@ -9,13 +9,13 @@
 body {
   min-height: 100vh;
   font-family: "Montserrat", sans-serif;
-  padding: 0.5rem;
 }
 
 section.panel {
   display: grid;
   place-content: center;
   min-height: 100vh;
+  padding: 0.3rem;
 }
 
 section.panel.hidden {
