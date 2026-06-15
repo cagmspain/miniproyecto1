@@ -1,86 +1,97 @@
-"use strict";
+import {
+  clampVolume,
+  getSoundForKey,
+  isEditableTarget,
+  soundPath,
+} from "./drum-core.js";
 
-const sounds = {
-  E: "./sounds/crash.wav",
-  R: "./sounds/hihat-close.wav",
-  T: "./sounds/hihat-open.wav",
-  Y: "./sounds/kick.wav",
-  U: "./sounds/ride.wav",
-  I: "./sounds/snare.wav",
-  F: "./sounds/tom-high.wav",
-  G: "./sounds/tom-low.wav",
-  H: "./sounds/tom-mid.wav",
-};
+const pads = [...document.querySelectorAll("[data-sound]")];
+const status = document.querySelector("#status");
+const volumeControl = document.querySelector("#volume");
+const volumeValue = document.querySelector("#volume-value");
+const muteButton = document.querySelector("#mute");
 
-//selecciono y defino secciones
-const initialSection = document.querySelector("section.initial");
+const audioPool = new Map();
+let volume = clampVolume(volumeControl.value);
+let previousVolume = volume;
 
-const drumpadSection = document.querySelector("section.play");
+function getAudio(sound) {
+  if (!audioPool.has(sound)) {
+    const voices = Array.from({ length: 4 }, () => new Audio(soundPath(sound)));
+    audioPool.set(sound, { voices, index: 0 });
+  }
 
-//inicio diseño para visualización de paneles
-
-//función para mostrar paneles
-function showPanel(panel) {
-  panel.classList.remove("hidden");
+  const pool = audioPool.get(sound);
+  const audio = pool.voices[pool.index];
+  pool.index = (pool.index + 1) % pool.voices.length;
+  return audio;
 }
 
-//función general esconder todos los paneles
-function hideAllPanel() {
-  initialSection.classList.add("hidden");
-  drumpadSection.classList.add("hidden");
-}
-
-//función para gestionar panel central o principal-drumpad
-
-function showCentral() {
-  showPanel(drumpadSection);
-}
-
-//función para gestionar visualización panel inicial
-//y para añadir evento a botón jugar y dar paso a siguiente panel drumpad
-
-function managePanel() {
-  showPanel(initialSection);
-  const letsPlayButton = initialSection.querySelector("button");
-
-  letsPlayButton.addEventListener("click", () => {
-    hideAllPanel();
-    showCentral();
+function animatePad(pad) {
+  pad.classList.remove("is-active");
+  requestAnimationFrame(() => {
+    pad.classList.add("is-active");
+    window.setTimeout(() => pad.classList.remove("is-active"), 120);
   });
 }
-//inicializamos la gestión de paneles
-managePanel();
 
-//se define función play sounds, reproducirá los sonidos según dirección obtenida
-const drumPadPlay = (pathSound) => {
-  const sound = new Audio(pathSound);
+function playPad(pad) {
+  const sound = pad.dataset.sound;
+  const audio = getAudio(sound);
 
-  sound.play();
-};
+  audio.currentTime = 0;
+  audio.volume = volume;
+  void audio.play().catch(() => {
+    status.textContent = "El navegador bloqueó el audio. Pulsa un pad para activarlo.";
+  });
 
-//asignación clicks a sonidos
-//adicionalmente aprovecho evento para capturar pathsound relacionado al click
-//defino setTimeout para dar realismo al evento
+  animatePad(pad);
+  status.textContent = `${pad.querySelector(".pad__name").textContent} · tecla ${pad.dataset.key}`;
+}
 
-const UserClick = drumpadSection.addEventListener("click", (event) => {
-  const target = event.target;
-  if (target.matches("section.play>button")) {
-    let soundName = target.getAttribute("class");
+function updateVolume(nextVolume) {
+  volume = clampVolume(nextVolume);
+  volumeControl.value = String(volume);
+  volumeValue.value = `${Math.round(volume * 100)}%`;
+  muteButton.setAttribute("aria-pressed", String(volume === 0));
+  muteButton.textContent = volume === 0 ? "Activar sonido" : "Silenciar";
+}
 
-    if (soundName !== null) {
-      drumPadPlay(`./sounds/${soundName}.wav`);
-    }
-  }
+pads.forEach((pad) => {
+  pad.addEventListener("click", () => playPad(pad));
 });
 
-//asignación teclas a sonidos
-
-const UserKey = drumpadSection.addEventListener("keydown", (event) => {
-  const key = event.key.toUpperCase();
-  const llavesObjeto = Object.keys(sounds);
-  if (llavesObjeto.includes(key)) {
-    drumPadPlay(sounds[key]);
-  } else {
-    alert(`pulsa una tecla valida "E" "R" "T" "Y" "U" "I" "F" "G" "H"`);
+document.addEventListener("keydown", (event) => {
+  if (event.repeat || isEditableTarget(event.target)) {
+    return;
   }
+
+  const sound = getSoundForKey(event.key);
+  if (!sound) {
+    return;
+  }
+
+  const pad = document.querySelector(`[data-sound="${sound}"]`);
+  event.preventDefault();
+  playPad(pad);
 });
+
+volumeControl.addEventListener("input", (event) => {
+  const nextVolume = clampVolume(event.target.value);
+  if (nextVolume > 0) {
+    previousVolume = nextVolume;
+  }
+  updateVolume(nextVolume);
+});
+
+muteButton.addEventListener("click", () => {
+  if (volume === 0) {
+    updateVolume(previousVolume || 0.8);
+    return;
+  }
+
+  previousVolume = volume;
+  updateVolume(0);
+});
+
+updateVolume(volume);

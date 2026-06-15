@@ -1,78 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Batería virtual para tocar con el teclado, el ratón o una pantalla táctil."
+    />
+    <meta name="theme-color" content="#12131a" />
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
-    <link
-      rel="apple-touch-icon"
-      sizes="114x114"
-      href="/apple-icon-114x114.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="120x120"
-      href="/apple-icon-120x120.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="144x144"
-      href="/apple-icon-144x144.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="152x152"
-      href="/apple-icon-152x152.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/apple-icon-180x180.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="/android-icon-192x192.png"
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
-
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="./apple-icon-180x180.png" />
+    <link rel="manifest" href="./manifest.json" />
     <link rel="stylesheet" href="./CSS/style.css" />
-    <title>DRUM SET</title>
+
+    <title>Virtual Drumpad</title>
   </head>
   <body>
-    <section class="panel initial">
-      <h1>Virtual Drumpad</h1>
-      <ul>
-        <li>Enjoy playing virtual drumpad</li>
-        <li>You can play by clicking</li>
-        <li>or you can use your keyboard</li>
-        <li>E R T Y U I F G H</li>
-      </ul>
-      <button id="first">let's play</button>
-    </section>
-    <section class="panel play hidden central">
-      <button class="crash"><span>Crash(E)</span></button>
-      <button class="hihat-close"><span>Hihat close (R)</span></button>
-      <button class="hihat-open"><span>Hihat Open (T)</span></button>
-      <button class="ride"><span>Ride (U)</span></button>
-      <button class="snare"><span>Snare (I)</span></button>
-      <button class="tom-high"><span>TomHigh (F)</span></button>
-      <button class="tom-low"><span>TomLOw (G)</span></button>
-      <button class="tom-mid"><span>TomMid (H)</span></button>
-      <button class="kick"><span>Kick (Y)</span></button>
-    </section>
+    <main class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Instrumento web</p>
+          <h1>Virtual Drumpad</h1>
+          <p class="intro">
+            Toca con las teclas <strong>E R T Y U I F G H</strong> o pulsa
+            directamente cada pad.
+          </p>
+        </div>
+
+        <div class="controls" aria-label="Controles de sonido">
+          <label for="volume">Volumen</label>
+          <input
+            id="volume"
+            type="range"
+            min="0"
+            max="1"
+            value="0.8"
+            step="0.05"
+          />
+          <output id="volume-value" for="volume">80%</output>
+        </div>
+      </header>
+
+      <section class="drum-grid" aria-label="Batería virtual">
+        <button class="pad pad--crash" type="button" data-sound="crash" data-key="E">
+          <span class="pad__key">E</span>
+          <span class="pad__name">Crash</span>
+        </button>
+        <button
+          class="pad pad--hihat-close"
+          type="button"
+          data-sound="hihat-close"
+          data-key="R"
+        >
+          <span class="pad__key">R</span>
+          <span class="pad__name">Hi-hat cerrado</span>
+        </button>
+        <button
+          class="pad pad--hihat-open"
+          type="button"
+          data-sound="hihat-open"
+          data-key="T"
+        >
+          <span class="pad__key">T</span>
+          <span class="pad__name">Hi-hat abierto</span>
+        </button>
+        <button class="pad pad--kick" type="button" data-sound="kick" data-key="Y">
+          <span class="pad__key">Y</span>
+          <span class="pad__name">Bombo</span>
+        </button>
+        <button class="pad pad--ride" type="button" data-sound="ride" data-key="U">
+          <span class="pad__key">U</span>
+          <span class="pad__name">Ride</span>
+        </button>
+        <button class="pad pad--snare" type="button" data-sound="snare" data-key="I">
+          <span class="pad__key">I</span>
+          <span class="pad__name">Caja</span>
+        </button>
+        <button
+          class="pad pad--tom-high"
+          type="button"
+          data-sound="tom-high"
+          data-key="F"
+        >
+          <span class="pad__key">F</span>
+          <span class="pad__name">Tom agudo</span>
+        </button>
+        <button
+          class="pad pad--tom-low"
+          type="button"
+          data-sound="tom-low"
+          data-key="G"
+        >
+          <span class="pad__key">G</span>
+          <span class="pad__name">Tom grave</span>
+        </button>
+        <button
+          class="pad pad--tom-mid"
+          type="button"
+          data-sound="tom-mid"
+          data-key="H"
+        >
+          <span class="pad__key">H</span>
+          <span class="pad__name">Tom medio</span>
+        </button>
+      </section>
+
+      <footer class="status-bar">
+        <p id="status" role="status" aria-live="polite">
+          Listo. Pulsa una tecla para empezar.
+        </p>
+        <button id="mute" class="secondary-button" type="button" aria-pressed="false">
+          Silenciar
+        </button>
+      </footer>
+    </main>
+
+    <noscript>Necesitas activar JavaScript para utilizar la batería virtual.</noscript>
     <script type="module" src="./JS/bateria.js"></script>
   </body>
 </html>
